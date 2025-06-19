@@ -1,0 +1,13 @@
+# Dependencias principales del proyecto EcoChallenge
+
+# Navegación
+@react-navigation/native
+@react-navigation/stack
+react-native-screens
+react-native-safe-area-context
+
+# Almacenamiento local
+@react-native-async-storage/async-storage
+
+# npm
+expo-image-picker 
