@@ -19,7 +19,7 @@ const AdminParticipationsScreen = () => {
   }, [refresh]);
 
   const updateUserStats = async (userName, reto) => {
-    // Buscar usuario por nombre y actualizar puntos, retos completados y retos para la gráfica
+    //Buscar usuario por nombre y actualizar puntos, retos completados y retos para la gráfica
     const keys = await AsyncStorage.getAllKeys();
     const result = await AsyncStorage.multiGet(keys);
     let userKey = null;
@@ -36,10 +36,10 @@ const AdminParticipationsScreen = () => {
       } catch {}
     }
     if (userKey && userData) {
-      // Sumar puntos y retos completados
+      //Sumar puntos y retos completados
       const puntos = parseInt(userData.puntos || 0) + parseInt(reto.puntaje || 0);
       const retos = parseInt(userData.retos || 0) + 1;
-      // Agregar reto a la gráfica
+      //Agregar reto a la gráfica
       let retosGraficos = Array.isArray(userData.retosGraficos) ? userData.retosGraficos : [];
       retosGraficos.push({ nombre: reto.nombre, fecha: new Date().toISOString().slice(0, 10) });
       const updatedUser = {
@@ -59,7 +59,7 @@ const AdminParticipationsScreen = () => {
       if (newStatus === 'Aprobado') {
         await updateUserStats(participation.userName, participation.reto);
       }
-      // Eliminar la participación de la lista
+      //Eliminar la participación de la lista
       updated.splice(idx, 1);
       await AsyncStorage.setItem('participations', JSON.stringify(updated));
       setRefresh(r => !r);

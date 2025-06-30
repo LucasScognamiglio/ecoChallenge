@@ -14,6 +14,7 @@ import AdminChallengeScreen from '../screens/AdminChallengeScreen';
 import ChallengeListScreen from '../screens/ChallengeListScreen';
 import ChallengeParticipationScreen from '../screens/ChallengeParticipationScreen';
 import AdminParticipationsScreen from '../screens/AdminParticipationsScreen';
+import AdminCategoriesScreen from '../screens/AdminCategoriesScreen';
 
 const Stack = createStackNavigator();
 
@@ -80,6 +81,11 @@ const RootStack = () => {
                     name="AdminParticipationsScreen"
                     component={AdminParticipationsScreen}
                     options={{ title: 'Participaciones de Retos' }}
+                />
+                <Stack.Screen
+                    name="AdminCategoriesScreen"
+                    component={AdminCategoriesScreen}
+                    options={{ title: 'Categorías de Reciclaje' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

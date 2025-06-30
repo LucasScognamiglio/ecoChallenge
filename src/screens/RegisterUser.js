@@ -52,7 +52,7 @@ const RegisterUser = ({ navigation }) => {
             return;
         }
         try {
-            // Check if email already exists
+            //Verificar si el   correo  existe
             const keys = await AsyncStorage.getAllKeys();
             const result = await AsyncStorage.multiGet(keys);
             const exists = result.map(req => JSON.parse(req[1])).some(u => u.email === email);

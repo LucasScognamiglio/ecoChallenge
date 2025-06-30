@@ -76,7 +76,7 @@ const UserPanel = ({ route, navigation }) => {
       <Text style={{ fontSize: 18, marginTop: 20, marginBottom: 10 }}>Estadísticas (Retos completados por mes)</Text>
       <View style={{ minHeight: 60, backgroundColor: '#e0e0e0', borderRadius: 10, justifyContent: 'center', alignItems: 'flex-start', padding: 10, width: '100%' }}>
         {meses.length === 0 ? (
-          <Text style={{ color: '#888' }}>[Vacío]</Text>
+          <Text style={{ color: '#888' }}>Vacío</Text>
         ) : (
           meses.map((mes, idx) => (
             <View key={idx} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 4 }}>

@@ -11,3 +11,4 @@ react-native-safe-area-context
 
 # npm
 expo-image-picker 
+expo-location

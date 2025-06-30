@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, TextInput, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, Image, TextInput, Alert, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
+import MapView, { Marker } from 'react-native-maps';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ChallengeParticipationScreen = ({ route }) => {
   const { reto, userName } = route.params || {};
   const [photo, setPhoto] = useState(null);
-  const [location, setLocation] = useState('(-34.6037, -58.3816)'); // Simulado
+  const [location, setLocation] = useState(null);
   const [comment, setComment] = useState('');
-  const [status, setStatus] = useState('Pendiente'); // Simulado
+  const [status, setStatus] = useState('Pendiente');
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permiso denegado', 'No se pudo obtener la ubicación.');
+        setLocation(null);
+        return;
+      }
+      let loc = await Location.getCurrentPositionAsync({});
+      setLocation(loc.coords);
+    })();
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -27,11 +42,15 @@ const ChallengeParticipationScreen = ({ route }) => {
       Alert.alert('Por favor, sube una fotografía como evidencia.');
       return;
     }
+    if (!location) {
+      Alert.alert('No se pudo obtener la ubicación.');
+      return;
+    }
     const participation = {
       userName,
       reto,
       photo,
-      location,
+      location: `(${location.latitude}, ${location.longitude})`,
       comment,
       status: 'Pendiente',
     };
@@ -58,7 +77,33 @@ const ChallengeParticipationScreen = ({ route }) => {
         <Text style={{ color: 'white', fontWeight: 'bold' }}>Subir Fotografía</Text>
       </TouchableOpacity>
       {photo && <Image source={{ uri: photo }} style={{ width: 200, height: 150, borderRadius: 10, alignSelf: 'center', marginBottom: 10 }} />}
-      <Text style={{ marginBottom: 5 }}>Ubicación (simulada): {location}</Text>
+      <Text style={{ marginBottom: 5 }}>
+        Ubicación: {location ? `(${location.latitude}, ${location.longitude})` : '[Obteniendo ubicación...]'}
+      </Text>
+      {location ? (
+        <MapView
+          style={{ width: '100%', height: 200, borderRadius: 10, marginBottom: 15 }}
+          initialRegion={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+          region={{
+            latitude: location.latitude,
+            longitude: location.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
+          }}
+        >
+          <Marker
+            coordinate={{ latitude: location.latitude, longitude: location.longitude }}
+            title="Tu ubicación"
+          />
+        </MapView>
+      ) : (
+        <ActivityIndicator size="large" color="#1976d2" style={{ marginBottom: 15 }} />
+      )}
       <TextInput
         placeholder="Comentario opcional"
         placeholderTextColor="gray"
