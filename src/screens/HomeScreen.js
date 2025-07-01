@@ -10,6 +10,12 @@ const HomeScreen = ({ navigation }) => {
                     <View style={ styles.generalView }>
                         <ScrollView>
                             <MyButton
+                            title="Crear Categorías de Reciclaje"
+                            btnColor="#388e3c"
+                            btnIcon="leaf"
+                            customPress={() => navigation.navigate("AdminCategoriesScreen")}
+                            />
+                            <MyButton
                             title="Alta de Retos"
                             btnColor="orange"
                             btnIcon="plus-circle"
@@ -50,12 +56,6 @@ const HomeScreen = ({ navigation }) => {
                             btnColor="purple"
                             btnIcon="user-times"
                             customPress={() => navigation.navigate("ViewAllUsers")}
-                            />
-                            <MyButton
-                            title="Crear Categorías de Reciclaje"
-                            btnColor="#388e3c"
-                            btnIcon="leaf"
-                            customPress={() => navigation.navigate("AdminCategoriesScreen")}
                             />
                         </ScrollView>
                     </View>

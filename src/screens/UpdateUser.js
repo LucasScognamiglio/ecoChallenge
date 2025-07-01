@@ -14,7 +14,7 @@ const UpdateUser = () => {
     const searchUser = async () => {
         console.log("searchUser");
         if(!userNameSearch.trim()){
-            Alert.alert("El nombre de usuario es requerido!");
+            Alert.alert("El email de usuario es requerido!");
             return;
         }
 
@@ -63,19 +63,19 @@ const UpdateUser = () => {
                         <KeyboardAvoidingView behavior="padding">
                             <MyText text="Buscar Usuario" style={styles.text} />
                             <MyInputText
-                                placeholder="Ingrese el nombre de Usuario"
+                                placeholder="Ingrese email del usuario"
                                 style={styles.inputStyle}
                                 onChangeText={(text) => setUserNameSearch(text)}
                             />
                             <MySingleButton title="Buscar" customPress={searchUser}/>
 
                             <MyInputText
-                                placeholder="Ingrese el nombre de Usuario"
+                                placeholder="Ingrese nombre del usuario"
                                 value={userName}
                                 onChangeText={(text) => setUserName(text)}
                             />
                             <MyInputText
-                                placeholder="Ingrese el email"
+                                placeholder="Ingrese email del usuario"
                                 value={userEmail}
                                 onChangeText={(text) => setEmail(text)}
                             />

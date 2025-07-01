@@ -12,8 +12,10 @@ const ViewAllUsers = ( { navigation } ) => {
             try{
                 const keys = await AsyncStorage.getAllKeys();
                 const result = await AsyncStorage.multiGet(keys);
-                const usersList = result.map(req => JSON.parse(req[1]));
+                let usersList = result.map(req => JSON.parse(req[1]));
                 if(usersList.length > 0){
+                    usersList = usersList.filter(i => i.email != undefined)
+                    console.log(usersList)
                     setUsers(usersList);
                 }else{
                     Alert.alert(
@@ -22,6 +24,7 @@ const ViewAllUsers = ( { navigation } ) => {
                         [{ text: "OK", onPress: () => navigation.navigate("HomeScreen")}], {cancelable: false}
                     );
                 }
+                
             }catch(error){
                 console.error(error);
                 Alert.alert("Error al cargar usuarios!");

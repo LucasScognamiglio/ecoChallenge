@@ -6,88 +6,98 @@ import MyInputText from "../components/MyInputText";
 import MySingleButton from "../components/MySingleButton";
 
 const ViewUser = ({ navigation }) => {
-    const [userName, setUserName] = useState("");
-    const [userData, setUserData] = useState(null);
+  const [userName, setUserName] = useState("");
+  const [userData, setUserData] = useState(null);
 
-    const getUserData = async () => {
-        console.log("getUserData");
+  const getUserData = async () => {
+    console.log("getUserData");
 
-        setUserData(null);
-        if(!userName.trim()){
-            Alert.alert("El nombre de usuario es requerido!");
-            return;
-        }
+    setUserData(null);
+    if (!userName.trim()) {
+      Alert.alert("El email de usuario es requerido!");
+      return;
+    }
 
-        try{
-            const user = await AsyncStorage.getItem(userName);
-            if(user){
-                setUserData(JSON.parse(user));
-            }else{
-                Alert.alert("El usuario no existe");
-            }
-        }catch(error){
-            console.error(error);
-            Alert.alert("Error al buscar usuario");
-        }
-    };
+    try {
+      const user = await AsyncStorage.getItem(userName);
+      if (user) {
+        setUserData(JSON.parse(user));
+      } else {
+        Alert.alert("El usuario no existe");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Error al buscar usuario");
+    }
+  };
 
-    return(
-        <SafeAreaView style={styles.container}>
-            <View style={styles.viewContainer}>
-                <View style={styles.generalView}>
-                    <ScrollView>
-                        <KeyboardAvoidingView style={styles.keyboardView}>
-                            <MyText text="Filtro de usuario" style={styles.text}/>
-                            <MyInputText
-                            style={styles.inputStyle}
-                            placeholder="Nombre de usuario a buscar"
-                            onChangeText={(text) => setUserName(text)}
-                            />
-                            <MySingleButton title="Buscar" customPress={getUserData}/>
-                            <View style={styles.presenterView}>
-                                <MyText text={`Email: ${!userData ? '' : userData.email}`} style={styles.presenterText} />
-                            </View>
-                        </KeyboardAvoidingView>
-                    </ScrollView>
-                </View>
-            </View>
-        </SafeAreaView>
-    );
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.viewContainer}>
+        <View style={styles.generalView}>
+          <ScrollView>
+            <KeyboardAvoidingView style={styles.keyboardView}>
+              <MyText text="Filtro de usuario" style={styles.text} />
+              <MyInputText
+                style={styles.inputStyle}
+                placeholder="Nombre de usuario a buscar"
+                onChangeText={(text) => setUserName(text)}
+              />
+              <MySingleButton title="Buscar" customPress={getUserData} />
+              <View style={styles.presenterView}>
+                {
+                  userData ?
+                    <>
+                      <MyText text={`Nombre: ` + userData.userName} style={styles.presenterText} />
+                      <MyText text={`Edad: ` + userData.age} style={styles.presenterText} />
+                      <MyText text={`Puntaje: ` + userData.puntos} style={styles.presenterText} />
+                      <MyText text={`Nombre: ` + userData.nivel} style={styles.presenterText} />
+                    </>
+                    :
+                    <MyText text={'Usuario no existe'} style={styles.presenterText} />
+                }
+              </View>
+            </KeyboardAvoidingView>
+          </ScrollView>
+        </View>
+      </View>
+    </SafeAreaView>
+  );
 };
 
 export default ViewUser;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    },
-    viewContainer: {
-      flex: 1,
-      backgroundColor: "white",
-    },
-    generalView: {
-      flex: 1,
-    },
-    text: {
-      padding: 10,
-      marginLeft: 25,
-      color: "black",
-    },
-    inputStyle: {
-      padding: 15,
-      margin: 10,
-      color: "black",
-    },
-    presenterView: {
-      flex:2,
-      marginLeft: 30,
-      marginRight: 30,
-      marginTop: 15,
-      fontSize: 30,
-    },
-    presenterText: {
-      fontSize:20
-    }
-  });
-  
-  
+  container: {
+    flex: 1,
+  },
+  viewContainer: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  generalView: {
+    flex: 1,
+  },
+  text: {
+    padding: 10,
+    marginLeft: 25,
+    color: "black",
+  },
+  inputStyle: {
+    padding: 15,
+    margin: 10,
+    color: "black",
+  },
+  presenterView: {
+    flex: 2,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 15,
+    fontSize: 30,
+  },
+  presenterText: {
+    fontSize: 20
+  }
+});
+
+
